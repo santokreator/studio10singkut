@@ -1,364 +1,308 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VideoPrivate Hosting Edition</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: #e8fff0;
-      color: #1d3b2a;
-    }
-
-    header {
-      background: #8df0b3;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    header h1 {
-      font-size: 28px;
-      color: #115c32;
-    }
-
-    nav button {
-      background: #1fa45b;
-      border: none;
-      padding: 10px 16px;
-      margin-left: 10px;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-      font-weight: bold;
-    }
-
-    nav button:hover {
-      background: #168446;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 60px 20px;
-    }
-
-    .hero h2 {
-      font-size: 42px;
-      color: #146b3c;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      max-width: 700px;
-      margin: auto;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 25px;
-      margin-bottom: 30px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    }
-
-    .card h3 {
-      margin-bottom: 20px;
-      color: #0f6d39;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 10px;
-      border: 1px solid #c7e9d4;
-      outline: none;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .btn {
-      margin-top: 15px;
-      background: #20a85d;
-      color: white;
-      border: none;
-      padding: 12px 18px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    .btn:hover {
-      background: #178046;
-    }
-
-    .video-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
-    .video-card {
-      position: relative;
-      background: white;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    }
-
-    .video-card video {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      background: black;
-    }
-
-    .video-info {
-      padding: 15px;
-    }
-
-    .video-card:hover {
-      transform: translateY(-5px);
-      transition: 0.3s;
-    }
-
-    .video-banner {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(0,0,0,0.7);
-      color: white;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      z-index: 2;
-    }
-
-    .video-info h4 {
-      margin-bottom: 8px;
-      color: #136d3b;
-    }
-
-    .video-info p {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 10px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .delete-btn {
-      background: #ff4d4d;
-    }
-
-    .delete-btn:hover {
-      background: #d93636;
-    }
-
-    footer {
-      background: #8df0b3;
-      padding: 20px;
-      text-align: center;
-      margin-top: 50px;
-      color: #115c32;
-      font-weight: bold;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .stat-box {
-      background: #c9f7d9;
-      padding: 20px;
-      border-radius: 14px;
-      text-align: center;
-    }
-
-    .stat-box h2 {
-      font-size: 35px;
-      color: #0f6d39;
-    }
-
-    .search-box {
-      margin-bottom: 20px;
-    }
-
-    .tag {
-      display: inline-block;
-      background: #d6ffe5;
-      color: #0b6d38;
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      margin-top: 8px;
-    }
-
-    @media(max-width: 700px) {
-      .hero h2 {
-        font-size: 30px;
-      }
-
-      header {
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VideoPrivate Final</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#e9fff1;
+margin:0;
+padding:0;
+}
+header{
+background:#8df0b3;
+padding:15px;
+text-align:center;
+font-size:28px;
+font-weight:bold;
+color:#0b5d30;
+}
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+.card{
+background:white;
+padding:20px;
+border-radius:15px;
+margin-bottom:20px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+input,textarea,select{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+border:1px solid #ccc;
+}
+button{
+background:#16a34a;
+color:white;
+padding:12px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+margin-top:10px;
+font-weight:bold;
+}
+button:hover{
+background:#0f7a36;
+}
+.video-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
+}
+.video-card{
+background:white;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+video{
+width:100%;
+height:220px;
+background:black;
+}
+.video-info{
+padding:15px;
+}
+.tag{
+background:#d1fae5;
+padding:5px 10px;
+border-radius:20px;
+font-size:12px;
+display:inline-block;
+margin-top:10px;
+}
+.hidden{
+display:none;
+}
+</style>
 </head>
 <body>
 
-<header>
-  <h1>VideoPrivate FINAL</h1>
-  <nav>
-    <button onclick="showSection('home')">Beranda</button>
-    <button onclick="showSection('upload')">Upload</button>
-    <button onclick="showSection('dashboard')">Dashboard</button>
-    <button onclick="logout()">Logout</button>
-  </nav>
-</header>
-
-<section class="hero" id="home">
-  <h2>Website Upload Video Pribadi Final Edition</h2>
-  <p>
-    Simpan dan kelola semua video pribadi Anda secara online dengan sistem modern berbasis Supabase Cloud Storage, dashboard admin, pencarian video, statistik realtime, kategori video, dan tampilan hijau muda premium seperti platform streaming profesional.
-  </p>
-</section>
+<header>VideoPrivate FINAL</header>
 
 <div class="container">
 
-  <div class="card" id="loginCard">
-    <h3>Login Admin / User</h3>
-    <input type="text" id="username" placeholder="Masukkan username">
-    <input type="password" id="password" placeholder="Masukkan password">
-
-    <select id="role">
-      <option value="user">User</option>
-      <option value="admin">Admin</option>
-    </select>
-
-    <button class="btn" onclick="login()">Login</button>
-
-    <p style="margin-top:15px;">
-      Admin Login: <b>admin / admin123</b><br>
-      User Login: <b>user / user123</b>
-    </p>
-  </div>
-
-  <div id="mainContent" class="hidden">
-
-    <div class="card" id="upload">
-      <h3>Upload Video</h3>
-
-      <input type="text" id="videoTitle" placeholder="Judul video">
-
-      <textarea id="videoDesc" placeholder="Deskripsi video"></textarea>
-
-      <select id="videoCategory">
-        <option value="Pribadi">Pribadi</option>
-        <option value="Keluarga">Keluarga</option>
-        <option value="Liburan">Liburan</option>
-        <option value="Pendidikan">Pendidikan</option>
-        <option value="Lainnya">Lainnya</option>
-      </select>
-
-      <input type="file" id="videoFile" accept="video/*">
-
-      <button class="btn" onclick="uploadVideo()">Upload Sekarang</button>
-    </div>
-
-    <div class="card" id="dashboard">
-      <h3>Dashboard Video</h3>
-
-      <div class="stats">
-        <div class="stat-box">
-          <h2 id="totalVideos">0</h2>
-          <p>Total Video</p>
-        </div>
-
-        <div class="stat-box">
-          <h2 id="totalUsers">1</h2>
-          <p>Total Pengguna</p>
-        </div>
-
-        <div class="stat-box">
-          <h2 id="totalViews">0</h2>
-          <p>Total Dilihat</p>
-        </div>
-      </div>
-
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Cari video..." onkeyup="searchVideo()">
-      </div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:20px;gap:10px;">
-        <h2 style="color:#0f6d39;">Semua Video Yang Diupload</h2>
-
-        <select id="filterCategory" onchange="filterCategory()" style="max-width:250px;">
-          <option value="all">Semua Kategori</option>
-          <option value="Pribadi">Pribadi</option>
-          <option value="Keluarga">Keluarga</option>
-          <option value="Liburan">Liburan</option>
-          <option value="Pendidikan">Pendidikan</option>
-          <option value="Lainnya">Lainnya</option>
-        </select>
-      </div>
-
-      <div class="video-grid" id="videoContainer"></div>
-    </div>
-
-  </div>
+<div class="card" id="loginBox">
+<h2>Login</h2>
+<input type="text" id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+<select id="role">
+<option value="user">User</option>
+<option value="admin">Admin</option>
+</select>
+<button onclick="login()">Login</button>
+<p>
+Admin: admin / admin123<br>
+User: user / user123
+</p>
 </div>
 
-<footer>
-  © 2026 VideoPrivate Final Edition - Upload Video Pribadi Dengan Supabase Storage
-</footer>
+<div id="app" class="hidden">
+
+<div class="card">
+<h2>Upload Video</h2>
+<input type="text" id="title" placeholder="Judul Video">
+<textarea id="desc" placeholder="Deskripsi"></textarea>
+<select id="category">
+<option>Pribadi</option>
+<option>Keluarga</option>
+<option>Liburan</option>
+<option>Pendidikan</option>
+</select>
+<input type="file" id="videoFile" accept="video/*">
+<button onclick="uploadVideo()">Upload Video</button>
+</div>
+
+<div class="card">
+<h2>Semua Video</h2>
+<input type="text" id="search" placeholder="Cari video..." onkeyup="loadVideos()">
+<div class="video-grid" id="videoContainer"></div>
+</div>
+
+</div>
+
+</div>
+
+<script>
+// ===============================
+// GANTI DENGAN DATA SUPABASE
+// ===============================
+const SUPABASE_URL = 'ISI_URL_SUPABASE';
+const SUPABASE_KEY = 'ISI_ANON_KEY_SUPABASE';
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+
+function login(){
+const username = document.getElementById('username').value;
+const password = document.getElementById('password').value;
+const role = document.getElementById('role').value;
+
+if(role==='admin' && username==='admin' && password==='admin123'){
+currentUser='admin';
+}
+else if(role==='user' && username==='user' && password==='user123'){
+currentUser='user';
+}
+else{
+alert('Login gagal');
+return;
+}
+
+document.getElementById('loginBox').classList.add('hidden');
+document.getElementById('app').classList.remove('hidden');
+loadVideos();
+}
+
+async function uploadVideo(){
+const title=document.getElementById('title').value;
+const desc=document.getElementById('desc').value;
+const category=document.getElementById('category').value;
+const file=document.getElementById('videoFile').files[0];
+
+if(!title || !desc || !file){
+alert('Lengkapi data');
+return;
+}
+
+const filename=Date.now()+'_'+file.name;
+
+const { error: uploadError } = await supabaseClient.storage
+.from('videos')
+.upload(filename,file);
+
+if(uploadError){
+alert('Upload gagal');
+console.log(uploadError);
+return;
+}
+
+const { data } = supabaseClient.storage
+.from('videos')
+.getPublicUrl(filename);
+
+const url=data.publicUrl;
+
+const { error: insertError } = await supabaseClient
+.from('videos')
+.insert([
+{
+title:title,
+desc:desc,
+category:category,
+url:url,
+uploaded_by:currentUser,
+views:0
+}
+]);
+
+if(insertError){
+alert('Database gagal');
+console.log(insertError);
+return;
+}
+
+alert('Video berhasil diupload');
+
+loadVideos();
+}
+
+async function loadVideos(){
+const keyword=document.getElementById('search').value.toLowerCase();
+
+const { data: videos, error } = await supabaseClient
+.from('videos')
+.select('*')
+.order('id',{ascending:false});
+
+if(error){
+console.log(error);
+return;
+}
+
+const container=document.getElementById('videoContainer');
+container.innerHTML='';
+
+videos.forEach(video=>{
+if(video.title.toLowerCase().includes(keyword)){
+const card=document.createElement('div');
+card.className='video-card';
+
+card.innerHTML=`
+<video controls onplay="addView(${video.id})">
+<source src="${video.url}" type="video/mp4">
+</video>
+<div class="video-info">
+<h3>${video.title}</h3>
+<p>${video.desc}</p>
+<span class="tag">${video.category}</span>
+<p>Dilihat: ${video.views || 0}x</p>
+<p>Uploader: ${video.uploaded_by}</p>
+<button onclick="window.open('${video.url}')">Download</button>
+${currentUser==='admin' ? `<button onclick="deleteVideo(${video.id})">Hapus</button>` : ''}
+</div>
+`;
+
+container.appendChild(card);
+}
+});
+}
+
+async function deleteVideo(id){
+if(currentUser!=='admin'){
+alert('Khusus admin');
+return;
+}
+
+await supabaseClient
+.from('videos')
+.delete()
+.eq('id',id);
+
+loadVideos();
+}
+
+async function addView(id){
+const { data } = await supabaseClient
+.from('videos')
+.select('views')
+.eq('id',id)
+.single();
+
+let views=0;
+
+if(data){
+views=data.views || 0;
+}
+
+await supabaseClient
+.from('videos')
+.update({views:views+1})
+.eq('id',id);
+}
+</script>
 
 <!--
-PENTING AGAR SEMUA FITUR BERJALAN:
+====================================
+SETUP SUPABASE AGAR BERJALAN
+====================================
 
-1. STORAGE BUCKET HARUS BERNAMA:
-videos
+1. Buat project Supabase
 
-2. BUCKET WAJIB PUBLIC
+2. Buat bucket storage:
+Nama: videos
+Public: ON
 
-3. SQL DATABASE:
+3. SQL TABLE:
 
 create table videos (
  id bigint generated by default as identity primary key,
@@ -366,18 +310,11 @@ create table videos (
  desc text,
  category text,
  url text,
- views int default 0,
  uploaded_by text,
- created_at timestamp default now()
+ views int default 0
 );
 
-4. AKTIFKAN STORAGE POLICY:
-
-create policy "Public Access"
-on storage.objects for all
-using ( bucket_id = 'videos' );
-
-5. AKTIFKAN TABLE POLICY:
+4. SQL POLICY:
 
 alter table videos enable row level security;
 
@@ -387,322 +324,26 @@ for all
 using (true)
 with check (true);
 
-SEMUA FITUR AKAN BERJALAN SETELAH SETTING DI ATAS.
+5. STORAGE POLICY:
+
+create policy "Public Access"
+on storage.objects
+for all
+using (bucket_id = 'videos')
+with check (bucket_id = 'videos');
+
+6. GANTI:
+ISI_URL_SUPABASE
+ISI_ANON_KEY_SUPABASE
+
+====================================
+HOSTING:
+====================================
+GitHub Pages
+Netlify
+Vercel
+====================================
 -->
-
-<!-- PETUNJUK DATABASE SUPABASE -->
-<!--
-1. Buat project di Supabase
-2. Buat bucket storage bernama: videos
-3. Set bucket menjadi PUBLIC
-4. Jalankan SQL berikut:
-
-create table videos (
-  id bigint generated by default as identity primary key,
-  title text,
-  desc text,
-  category text,
-  url text,
-  views int default 0,
-  uploaded_by text,
-  created_at timestamp default now()
-);
-
-5. Ganti:
-// =========================
-  // WAJIB DIISI DENGAN DATA SUPABASE
-  // =========================
-  const SUPABASE_URL = 'https://PROJECT.supabase.co';
-const SUPABASE_KEY = 'MASUKKAN_ANON_PUBLIC_KEY';
-
-6. Upload file HTML ke:
-- GitHub Pages
-- Netlify
-- Vercel
-
-FITUR FINAL:
-✔ Login Admin & User
-✔ Upload Video
-✔ Storage Supabase
-✔ Database Online
-✔ Dashboard Video
-✔ Statistik
-✔ Search Video
-✔ Filter Kategori
-✔ Download Video
-✔ Hapus Video Admin
-✔ Responsive Mobile
-✔ Tampilan Hijau Modern
-✔ Hosting Online
--->
-
-<!-- Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-  // =========================
-  // CONFIG SUPABASE
-  // =========================
-  const SUPABASE_URL = 'ISI_URL_SUPABASE';
-  const SUPABASE_KEY = 'ISI_ANON_KEY_SUPABASE';
-
-  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-  let currentUser = null;
-  let totalViews = 0;
-
-  const loginCard = document.getElementById('loginCard');
-  const mainContent = document.getElementById('mainContent');
-  const videoContainer = document.getElementById('videoContainer');
-
-  function login() {
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const role = document.getElementById('role').value;
-
-    if(role === 'admin' && username === 'admin' && password === 'admin123') {
-      currentUser = 'admin';
-      alert('Login Admin Berhasil');
-    }
-    else if(role === 'user' && username === 'user' && password === 'user123') {
-      currentUser = 'user';
-      alert('Login User Berhasil');
-    }
-    else {
-      alert('Username atau Password Salah');
-      return;
-    }
-
-    loginCard.classList.add('hidden');
-    mainContent.classList.remove('hidden');
-
-    loadVideos();
-  }
-
-  function logout() {
-    currentUser = null;
-    loginCard.classList.remove('hidden');
-    mainContent.classList.add('hidden');
-  }
-
-  async function uploadVideo() {
-    const title = document.getElementById('videoTitle').value;
-    const desc = document.getElementById('videoDesc').value;
-    const category = document.getElementById('videoCategory').value;
-    const fileInput = document.getElementById('videoFile');
-    const file = fileInput.files[0];
-
-    if(!title || !desc || !file) {
-      alert('Lengkapi semua data video');
-      return;
-    }
-
-    const uploadBtn = document.querySelector('#upload .btn');
-    uploadBtn.innerText = 'Uploading...';
-    uploadBtn.disabled = true;
-
-    try {
-      const fileName = Date.now() + '_' + file.name;
-
-      const { data: uploadData, error: uploadError } = const { data: uploadData, error: uploadError } = await supabaseClient.storage
-        .from('videos')
-        .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
-
-      if(uploadError) {
-        throw uploadError;
-      }
-
-      const { data: publicData } = supabaseClient.storage
-        .from('videos')
-        .getPublicUrl(fileName);
-
-      const downloadURL = publicData.publicUrl;
-
-      const { error: insertError } = await supabaseClient
-        .from('videos')
-        .insert([
-          {
-            title: title,
-            desc: desc,
-            category: category,
-            url: downloadURL,
-            views: 0,
-            uploaded_by: currentUser,
-            created_at: new Date()
-          }
-        ]);
-
-      if(insertError) {
-        throw insertError;
-      }
-
-      alert('Video berhasil diupload ke hosting Firebase');
-
-      document.getElementById('videoTitle').value = '';
-      document.getElementById('videoDesc').value = '';
-      document.getElementById('videoFile').value = '';
-
-      loadVideos();
-    }
-    catch(error) {
-      console.error(error);
-      alert('Gagal upload video');
-    }
-
-    uploadBtn.innerText = 'Upload Sekarang';
-    uploadBtn.disabled = false;
-  }
-
-  async function loadVideos() {
-    videoContainer.innerHTML = '<h3 style="color:#0f6d39;">Loading video...</h3>';
-
-    const { data: videos, error } = await supabaseClient
-      .from('videos')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if(error) {
-      videoContainer.innerHTML = '<h3 style="color:red;">Gagal mengambil video dari database Supabase</h3>';
-      return;
-    }
-
-    videoContainer.innerHTML = '';
-
-    let totalViewCount = 0;
-    let totalVideos = 0;
-
-    videos.forEach(video => {
-      totalVideos++;
-
-      const video = doc.data();
-      const docId = video.id;
-
-      totalViewCount += video.views || 0;
-
-      const card = document.createElement('div');
-      card.className = 'video-card';
-
-      card.innerHTML = `
-        <div class="video-banner">🎬 Video Private</div>
-
-        <video controls onplay="addView('${docId}')">
-          <source src="${video.url}" type="video/mp4">
-        </video>
-
-        <div class="video-info">
-          <h4>${video.title}</h4>
-          <p>${video.desc}</p>
-          <span class="tag">${video.category}</span>
-          <p style="margin-top:10px;">Dilihat: ${video.views || 0}x</p>
-          <p>Diupload oleh: ${video.uploaded_by}</p>
-
-          <div class="actions">
-            <button class="btn" onclick="downloadVideo('${video.url}', '${video.title}')">Tonton</button>
-            <button class="btn delete-btn" onclick="deleteVideo('${docId}')">Hapus</button>
-          </div>
-        </div>
-      `;
-
-      videoContainer.appendChild(card);
-    });
-
-    document.getElementById('totalVideos').innerText = totalVideos;
-    document.getElementById('totalViews').innerText = totalViewCount;
-  }
-
-  async function deleteVideo(id) {
-    if(currentUser !== 'admin') {
-      alert('Hanya admin yang bisa menghapus video');
-      return;
-    }
-
-    if(confirm('Yakin ingin menghapus video ini?')) {
-      await supabaseClient
-        .from('videos')
-        .delete()
-        .eq('id', id);
-      loadVideos();
-    }
-  }
-
-  async function addView(id) {
-    const { data, error } = await supabaseClient
-      .from('videos')
-      .select('views')
-      .eq('id', id)
-      .single();
-
-    if(!error && data) {
-      await supabaseClient
-        .from('videos')
-        .update({
-          views: (data.views || 0) + 1
-        })
-        .eq('id', id);
-    }
-  }
-  }
-
-  function downloadVideo(url, title) {
-    const a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.download = title + '.mp4';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-
-  function searchVideo() {
-    const keyword = document.getElementById('searchInput').value.toLowerCase();
-
-    const cards = document.querySelectorAll('.video-card');
-
-    cards.forEach(card => {
-      const title = card.querySelector('h4').innerText.toLowerCase();
-      const desc = card.querySelector('p').innerText.toLowerCase();
-
-      if(title.includes(keyword) || desc.includes(keyword)) {
-        card.style.display = 'block';
-      } else {
-        card.style.display = 'none';
-      }
-    });
-  }
-
-  function filterCategory() {
-    const category = document.getElementById('filterCategory').value;
-
-    const videos = document.querySelectorAll('.video-card');
-
-    videos.forEach(video => {
-      const tag = video.querySelector('.tag').innerText;
-
-      if(category === 'all' || tag === category) {
-        video.style.display = 'block';
-      } else {
-        video.style.display = 'none';
-      }
-    });
-  } else {
-        card.style.display = 'none';
-      }
-    });
-  }
-
-  function showSection(id) {
-    const section = document.getElementById(id);
-
-    if(section) {
-      window.scrollTo({
-        top: section.offsetTop - 70,
-        behavior: 'smooth'
-      });
-    }
-  }
-</script>
 
 </body>
 </html>
