@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyTube Pro</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f0f0f;
+color:white;
+}
+
+.navbar{
+position:sticky;
+top:0;
+z-index:999;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:15px 20px;
+background:#202020;
+border-bottom:1px solid #333;
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+color:red;
+}
+
+.nav-center{
+flex:1;
+display:flex;
+justify-content:center;
+padding:0 20px;
+}
+
+.search{
+width:100%;
+max-width:600px;
+padding:14px;
+border-radius:50px;
+border:none;
+background:#2a2a2a;
+color:white;
+}
+
+.nav-right{
+display:flex;
+gap:10px;
+}
+
+.btn{
+padding:12px 18px;
+border:none;
+border-radius:12px;
+background:red;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+.layout{
+display:flex;
+}
+
+.sidebar{
+width:230px;
+background:#181818;
+height:calc(100vh - 70px);
+position:sticky;
+top:70px;
+padding:20px;
+overflow:auto;
+}
+
+.menu-item{
+padding:14px;
+border-radius:12px;
+margin-bottom:10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.menu-item:hover{
+background:#2b2b2b;
+}
+
+.content{
+flex:1;
+padding:20px;
+}
+
+.video-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:20px;
+}
+
+.card{
+background:#1b1b1b;
+border-radius:18px;
+overflow:hidden;
+transition:0.3s;
+cursor:pointer;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.thumb{
+width:100%;
+height:220px;
+object-fit:cover;
+background:black;
+}
+
+.info{
+padding:15px;
+}
+
+.channel{
+color:#aaa;
+margin-top:8px;
+}
+
+.views{
+color:#888;
+margin-top:5px;
+font-size:14px;
+}
+
+.modal,
+.upload-modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.9);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:1000;
+}
+
+.modal-content,
+.upload-content{
+background:#1b1b1b;
+width:100%;
+max-width:1100px;
+border-radius:20px;
+padding:20px;
+position:relative;
+overflow:auto;
+max-height:95vh;
+}
+
+.close{
+position:absolute;
+right:20px;
+top:10px;
+font-size:35px;
+cursor:pointer;
+}
+
+.player{
+width:100%;
+max-height:650px;
+background:black;
+border-radius:15px;
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:20px;
+flex-wrap:wrap;
+}
+
+.action-btn{
+background:#2a2a2a;
+border:none;
+color:white;
+padding:12px 20px;
+border-radius:30px;
+cursor:pointer;
+}
+
+.comments{
+margin-top:30px;
+}
+
+.comment-box{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:#2a2a2a;
+color:white;
+margin-bottom:10px;
+}
+
+.comment-item{
+background:#2a2a2a;
+padding:15px;
+border-radius:12px;
+margin-top:10px;
+}
+
+input,textarea,select{
+width:100%;
+padding:15px;
+margin-bottom:15px;
+border:none;
+border-radius:12px;
+background:#2a2a2a;
+color:white;
+}
+
+.trending{
+margin-bottom:30px;
+}
+
+.badge{
+display:inline-block;
+background:red;
+padding:6px 12px;
+border-radius:20px;
+font-size:12px;
+margin-top:10px;
+}
+
+@media(max-width:900px){
+.sidebar{
+display:none;
+}
+
+.layout{
+display:block;
+}
+}
+
+@media(max-width:700px){
+.nav-center{
+display:none;
+}
+
+.logo{
+font-size:24px;
+}
+
+.btn{
+padding:10px 12px;
+font-size:12px;
+}
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+<div class="logo">MyTube</div>
+
+<div class="nav-center">
+<input type="text" class="search" placeholder="Cari video..." onkeyup="searchVideos(this.value)">
+</div>
+
+<div class="nav-right">
+<button class="btn" onclick="openUpload()">Upload</button>
+<button class="btn" onclick="toggleDarkMode()">Mode</button>
+</div>
+</div>
+
+<div class="layout">
+<div class="sidebar">
+<div class="menu-item">🏠 Beranda</div>
+<div class="menu-item">🔥 Trending</div>
+<div class="menu-item">🎬 Shorts</div>
+<div class="menu-item">📺 Subscription</div>
+<div class="menu-item">🕘 Riwayat</div>
+<div class="menu-item">👍 Disukai</div>
+<div class="menu-item">🎵 Musik</div>
+<div class="menu-item">🎮 Gaming</div>
+<div class="menu-item">⚽ Olahraga</div>
+</div>
+
+<div class="content">
+<div class="trending">
+<h2>🔥 Trending Video</h2>
+</div>
+
+<div class="video-grid" id="videoGrid"></div>
+</div>
+</div>
+
+<div class="upload-modal" id="uploadModal">
+<div class="upload-content">
+<span class="close" onclick="closeUpload()">×</span>
+
+<h2>Upload Video Baru</h2>
+
+<input type="text" id="title" placeholder="Judul Video">
+<textarea id="description" placeholder="Deskripsi"></textarea>
+<input type="text" id="channel" placeholder="Nama Channel">
+<select id="category">
+<option>Entertainment</option>
+<option>Gaming</option>
+<option>Music</option>
+<option>Education</option>
+<option>Sports</option>
+</select>
+<input type="file" id="videoFile" accept="video/*">
+
+<button class="btn" style="width:100%" onclick="uploadVideo()">Upload Sekarang</button>
+</div>
+</div>
+
+<div class="modal" id="watchModal">
+<div class="modal-content">
+<span class="close" onclick="closeWatch()">×</span>
+
+<video controls class="player" id="player"></video>
+
+<div class="info">
+<h1 id="watchTitle"></h1>
+<div class="channel" id="watchChannel"></div>
+<div class="views" id="watchViews"></div>
+<p style="margin-top:15px" id="watchDesc"></p>
+
+<div class="badge" id="watchCategory"></div>
+
+<div class="actions">
+<button class="action-btn" onclick="likeVideo()">👍 Like</button>
+<button class="action-btn" onclick="shareVideo()">📤 Share</button>
+<button class="action-btn" onclick="saveVideo()">💾 Save</button>
+<button class="action-btn" onclick="subscribeChannel()">🔔 Subscribe</button>
+</div>
+
+<div class="comments">
+<h2>Komentar</h2>
+
+<textarea class="comment-box" id="commentInput" placeholder="Tulis komentar..."></textarea>
+
+<button class="btn" onclick="addComment()">Kirim Komentar</button>
+
+<div id="commentList"></div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+let videos = []
+let currentVideo = null
+
+function openUpload(){
+document.getElementById('uploadModal').style.display='flex'
+}
+
+function closeUpload(){
+document.getElementById('uploadModal').style.display='none'
+}
+
+function closeWatch(){
+document.getElementById('watchModal').style.display='none'
+document.getElementById('player').pause()
+}
+
+window.onclick=function(e){
+if(e.target==document.getElementById('uploadModal')){
+closeUpload()
+}
+
+if(e.target==document.getElementById('watchModal')){
+closeWatch()
+}
+}
+
+function uploadVideo(){
+const title=document.getElementById('title').value
+const description=document.getElementById('description').value
+const channel=document.getElementById('channel').value
+const category=document.getElementById('category').value
+const file=document.getElementById('videoFile').files[0]
+
+if(!title||!channel||!file){
+alert('Lengkapi semua data')
+return
+}
+
+const url=URL.createObjectURL(file)
+
+const video={
+id:Date.now(),
+title,
+description,
+channel,
+category,
+video:url,
+views:0,
+likes:0,
+comments:[]
+}
+
+videos.unshift(video)
+
+renderVideos(videos)
+closeUpload()
+
+alert('Video berhasil diupload')
+}
+
+function renderVideos(data){
+const grid=document.getElementById('videoGrid')
+grid.innerHTML=''
+
+if(data.length===0){
+grid.innerHTML='<h2>Tidak ada video</h2>'
+return
+}
+
+data.forEach(video=>{
+const card=document.createElement('div')
+card.className='card'
+
+card.innerHTML=`
+<video class="thumb" src="${video.video}"></video>
+
+<div class="info">
+<h3>${video.title}</h3>
+<div class="channel">${video.channel}</div>
+<div class="views">${video.views} views • ${video.likes} likes</div>
+<div class="badge">${video.category}</div>
+</div>
+`
+
+card.onclick=()=>watchVideo(video.id)
+
+grid.appendChild(card)
+})
+}
+
+function watchVideo(id){
+const video=videos.find(v=>v.id===id)
+if(!video)return
+
+currentVideo=video
+video.views++
+
+player.src=video.video
+watchTitle.innerText=video.title
+watchChannel.innerText='Channel: '+video.channel
+watchViews.innerText=video.views+' views • '+video.likes+' likes'
+watchDesc.innerText=video.description
+watchCategory.innerText=video.category
+
+renderComments()
+
+watchModal.style.display='flex'
+renderVideos(videos)
+}
+
+function likeVideo(){
+if(currentVideo){
+currentVideo.likes++
+watchViews.innerText=currentVideo.views+' views • '+currentVideo.likes+' likes'
+renderVideos(videos)
+}
+}
+
+function addComment(){
+const text=commentInput.value
+
+if(!text)return
+
+currentVideo.comments.push(text)
+commentInput.value=''
+renderComments()
+}
+
+function renderComments(){
+commentList.innerHTML=''
+
+currentVideo.comments.forEach(comment=>{
+const div=document.createElement('div')
+div.className='comment-item'
+div.innerText=comment
+commentList.appendChild(div)
+})
+}
+
+function shareVideo(){
+navigator.clipboard.writeText(location.href)
+alert('Link video disalin')
+}
+
+function saveVideo(){
+alert('Video disimpan')
+}
+
+function subscribeChannel(){
+alert('Berhasil subscribe channel')
+}
+
+function searchVideos(keyword){
+const filtered=videos.filter(v=>
+v.title.toLowerCase().includes(keyword.toLowerCase())||
+v.channel.toLowerCase().includes(keyword.toLowerCase())||
+v.category.toLowerCase().includes(keyword.toLowerCase())
+)
+
+renderVideos(filtered)
+}
+
+function toggleDarkMode(){
+if(document.body.style.background=='white'){
+document.body.style.background='#0f0f0f'
+document.body.style.color='white'
+}else{
+document.body.style.background='white'
+document.body.style.color='black'
+}
+}
+
+videos=[
+{
+id:1,
+title:'Video Demo Gaming',
+description:'Contoh video gaming keren',
+channel:'Gaming Pro',
+category:'Gaming',
+video:'https://www.w3schools.com/html/mov_bbb.mp4',
+views:1200,
+likes:230,
+comments:['Keren banget','Mantap videonya']
+},
+{
+id:2,
+title:'Tutorial Editing',
+description:'Belajar editing video profesional',
+channel:'Editor ID',
+category:'Education',
+video:'https://www.w3schools.com/html/movie.mp4',
+views:950,
+likes:180,
+comments:['Sangat membantu']
+}
+]
+
+renderVideos(videos)
+</script>
+
+</body>
+</html>
