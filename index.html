@@ -1,225 +1,255 @@
 <!DOCTYPE html>
+
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MyTube Pro Final</title>
+<title>MyTube Firebase</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#0f0f0f;color:white}
-.navbar{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#202020;position:sticky;top:0;z-index:999}
-.logo{font-size:30px;color:red;font-weight:bold}
-.search{width:50%;padding:14px;border:none;border-radius:30px;background:#2a2a2a;color:white}
-.nav-btn{padding:12px 18px;background:red;border:none;color:white;border-radius:10px;cursor:pointer;margin-left:10px}
-.layout{display:flex}
-.sidebar{width:230px;background:#181818;height:100vh;padding:20px}
-.menu{padding:14px;border-radius:10px;margin-bottom:10px;cursor:pointer}
-.menu:hover{background:#2a2a2a}
-.content{flex:1;padding:20px}
-.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
-.card{background:#1b1b1b;border-radius:18px;overflow:hidden;cursor:pointer;transition:.3s}
-.card:hover{transform:translateY(-5px)}
-.thumb{width:100%;height:220px;object-fit:cover;background:black}
-.info{padding:15px}
-.channel{color:#aaa;margin-top:5px}
-.views{color:#888;margin-top:5px;font-size:14px}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;padding:20px;z-index:999}
-.modal-content{background:#1b1b1b;width:100%;max-width:1100px;border-radius:20px;padding:20px;position:relative;max-height:95vh;overflow:auto}
-.close{position:absolute;right:20px;top:10px;font-size:35px;cursor:pointer}
-.player{width:100%;max-height:600px;background:black;border-radius:15px}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-.action-btn{padding:12px 20px;background:#2a2a2a;border:none;color:white;border-radius:30px;cursor:pointer}
-input,textarea,select{width:100%;padding:15px;margin-bottom:15px;border:none;border-radius:10px;background:#2a2a2a;color:white}
-.comment{background:#2a2a2a;padding:15px;border-radius:10px;margin-top:10px}
-.badge{display:inline-block;background:red;padding:6px 12px;border-radius:20px;font-size:12px;margin-top:10px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-top:20px}
-.stat-box{background:#2a2a2a;padding:20px;border-radius:15px}
-@media(max-width:900px){.sidebar{display:none}.search{width:40%}}
-@media(max-width:700px){.search{display:none}.logo{font-size:24px}.nav-btn{padding:10px 12px;font-size:12px}}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#0f0f0f;
+color:white;
+}
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 20px;
+background:#202020;
+position:sticky;
+top:0;
+z-index:999;
+}
+
+.logo{
+font-size:30px;
+font-weight:bold;
+color:red;
+}
+
+.search{
+width:50%;
+padding:12px;
+border:none;
+border-radius:30px;
+background:#2a2a2a;
+color:white;
+}
+
+.btn{
+padding:12px 18px;
+border:none;
+border-radius:10px;
+background:red;
+color:white;
+cursor:pointer;
+margin-left:10px;
+}
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:#1b1b1b;
+border-radius:15px;
+overflow:hidden;
+cursor:pointer;
+}
+
+.card video{
+width:100%;
+height:220px;
+object-fit:cover;
+background:black;
+}
+
+.info{
+padding:15px;
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.9);
+display:none;
+justify-content:center;
+align-items:center;
+padding:20px;
+z-index:999;
+}
+
+.modal-box{
+background:#1b1b1b;
+padding:20px;
+border-radius:20px;
+width:100%;
+max-width:900px;
+max-height:95vh;
+overflow:auto;
+position:relative;
+}
+
+.close{
+position:absolute;
+right:20px;
+top:10px;
+font-size:35px;
+cursor:pointer;
+}
+
+input,textarea{
+width:100%;
+padding:15px;
+margin-bottom:15px;
+border:none;
+border-radius:10px;
+background:#2a2a2a;
+color:white;
+}
+
+#player{
+width:100%;
+max-height:500px;
+background:black;
+border-radius:15px;
+margin-bottom:20px;
+}
+
+.comment{
+background:#2a2a2a;
+padding:15px;
+border-radius:10px;
+margin-top:10px;
+}
 </style>
+
 </head>
 <body>
 
 <div class="navbar">
 <div class="logo">MyTube</div>
+
 <input type="text" class="search" placeholder="Cari video..." onkeyup="searchVideos(this.value)">
+
 <div>
-<button class="nav-btn" onclick="openUpload()">Upload</button>
-<button class="nav-btn" onclick="openAuth()">Login</button>
-<button class="nav-btn" onclick="openAdmin()">Admin</button>
+<button class="btn" onclick="openUpload()">Upload</button>
+<button class="btn" onclick="openAuth()">Login</button>
 </div>
 </div>
 
-<div class="layout">
-<div class="sidebar">
-<div class="menu">🏠 Beranda</div>
-<div class="menu">🔥 Trending</div>
-<div class="menu">🎬 Shorts</div>
-<div class="menu">📺 Subscription</div>
-<div class="menu">🕘 History</div>
-<div class="menu">🎮 Gaming</div>
-<div class="menu">🎵 Music</div>
-<div class="menu">⚽ Sports</div>
-</div>
-
-<div class="content">
-<h2>🔥 Trending Video</h2>
-<br>
-<div class="video-grid" id="videoGrid"></div>
-</div>
-</div>
+<div class="container" id="videoContainer"></div>
 
 <div class="modal" id="uploadModal">
-<div class="modal-content">
+<div class="modal-box">
 <span class="close" onclick="closeUpload()">×</span>
+
 <h2>Upload Video</h2>
+
 <input type="text" id="title" placeholder="Judul Video">
 <textarea id="description" placeholder="Deskripsi"></textarea>
-<input type="text" id="channel" placeholder="Nama Channel">
-<select id="category">
-<option>Gaming</option>
-<option>Music</option>
-<option>Education</option>
-<option>Entertainment</option>
-<option>Sports</option>
-</select>
 <input type="file" id="videoFile" accept="video/*">
-<button class="nav-btn" style="width:100%" onclick="uploadVideo()">Upload Sekarang</button>
-</div>
-</div>
 
-<div class="modal" id="watchModal">
-<div class="modal-content">
-<span class="close" onclick="closeWatch()">×</span>
-<video controls class="player" id="player"></video>
-<div class="info">
-<h1 id="watchTitle"></h1>
-<div class="channel" id="watchChannel"></div>
-<div class="views" id="watchViews"></div>
-<p style="margin-top:15px" id="watchDesc"></p>
-<div class="badge" id="watchCategory"></div>
+<button class="btn" onclick="uploadVideo()">Upload Sekarang</button>
 
-<div class="actions">
-<button class="action-btn" onclick="likeVideo()">👍 Like</button>
-<button class="action-btn" onclick="shareVideo()">📤 Share</button>
-<button class="action-btn" onclick="subscribeChannel()">🔔 Subscribe</button>
-</div>
-
-<br>
-<h2>Komentar</h2>
-<textarea id="commentInput" placeholder="Tulis komentar..."></textarea>
-<button class="nav-btn" onclick="addComment()">Kirim Komentar</button>
-<div id="commentList"></div>
-</div>
 </div>
 </div>
 
 <div class="modal" id="authModal">
-<div class="modal-content" style="max-width:500px">
-<span class="close" onclick="authModal.style.display='none'">×</span>
+<div class="modal-box" style="max-width:500px">
+<span class="close" onclick="closeAuth()">×</span>
+
 <h2>Login / Register</h2>
-<input type="text" id="username" placeholder="Username">
+
+<input type="email" id="email" placeholder="Email">
 <input type="password" id="password" placeholder="Password">
-<button class="nav-btn" style="width:100%;margin-bottom:10px" onclick="registerUser()">Register</button>
-<button class="nav-btn" style="width:100%" onclick="loginUser()">Login</button>
+
+<button class="btn" onclick="registerUser()">Register</button> <button class="btn" onclick="loginUser()">Login</button>
+
 </div>
 </div>
 
-<div class="modal" id="adminModal">
-<div class="modal-content">
-<span class="close" onclick="adminModal.style.display='none'">×</span>
-<h1>Dashboard Admin</h1>
+<div class="modal" id="watchModal">
+<div class="modal-box">
+<span class="close" onclick="closeWatch()">×</span>
 
-<div class="stats">
-<div class="stat-box">
-<h2>Total User</h2>
-<h1 id="totalUsers">0</h1>
-</div>
+<video controls id="player"></video>
 
-<div class="stat-box">
-<h2>Total Video</h2>
-<h1 id="totalVideos">0</h1>
-</div>
-
-<div class="stat-box">
-<h2>Total Aktivitas</h2>
-<h1 id="totalActivities">0</h1>
-</div>
-</div>
+<h2 id="watchTitle"></h2>
+<p id="watchDescription"></p>
 
 <br>
-<h2>Aktivitas User</h2>
-<div id="activityList"></div>
+<button class="btn" onclick="likeVideo()">👍 Like</button>
+
+<br><br>
+
+<h3>Komentar</h3>
+
+<textarea id="commentInput" placeholder="Tulis komentar..."></textarea>
+
+<button class="btn" onclick="sendComment()">Kirim Komentar</button>
+
+<div id="commentList"></div>
 </div>
 </div>
 
-<script>
-let videos=[]
-let users=[]
-let activities=[]
-let currentUser=null
-let currentVideo=null
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'
 
-const adminAccount={
-username:'admin',
-password:'admin123',
-role:'admin'
+import {
+getAuth,
+createUserWithEmailAndPassword,
+signInWithEmailAndPassword,
+onAuthStateChanged
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js'
+
+import {
+getFirestore,
+collection,
+addDoc,
+getDocs,
+query,
+orderBy
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'
+
+import {
+getStorage,
+ref,
+uploadBytes,
+getDownloadURL
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js'
+
+const firebaseConfig = {
+apiKey: 'ISI_API_KEY',
+authDomain: 'ISI_DOMAIN',
+projectId: 'ISI_PROJECT_ID',
+storageBucket: 'ISI_BUCKET',
+messagingSenderId: 'ISI_SENDER_ID',
+appId: 'ISI_APP_ID'
 }
 
-videos=[
-{
-id:1,
-title:'Video Demo Gaming',
-description:'Contoh video gaming keren',
-channel:'Gaming Pro',
-category:'Gaming',
-video:'https://www.w3schools.com/html/mov_bbb.mp4',
-views:1200,
-likes:120,
-comments:['Keren','Mantap']
-},
-{
-id:2,
-title:'Tutorial Editing',
-description:'Belajar editing profesional',
-channel:'Editor ID',
-category:'Education',
-video:'https://www.w3schools.com/html/movie.mp4',
-views:800,
-likes:70,
-comments:['Bagus tutorialnya']
-}
-]
+const app = initializeApp(firebaseConfig)
+const auth = getAuth(app)
+const db = getFirestore(app)
+const storage = getStorage(app)
 
-function renderVideos(data=videos){
-videoGrid.innerHTML=''
+let currentUser = null
+let currentVideo = null
+let allVideos = []
 
-if(data.length===0){
-videoGrid.innerHTML='<h2>Tidak ada video</h2>'
-return
-}
-
-data.forEach(video=>{
-const card=document.createElement('div')
-card.className='card'
-
-card.innerHTML=`
-<video class="thumb" src="${video.video}"></video>
-<div class="info">
-<h3>${video.title}</h3>
-<div class="channel">${video.channel}</div>
-<div class="views">${video.views} views • ${video.likes} likes</div>
-<div class="badge">${video.category}</div>
-</div>
-`
-
-card.onclick=()=>watchVideo(video.id)
-videoGrid.appendChild(card)
-})
-}
-
-function openUpload(){
+window.openUpload = () => {
 if(!currentUser){
 alert('Login dahulu')
 return
@@ -227,100 +257,114 @@ return
 uploadModal.style.display='flex'
 }
 
-function closeUpload(){
+window.closeUpload = () => {
 uploadModal.style.display='none'
 }
 
-function uploadVideo(){
-const title=document.getElementById('title').value
-const description=document.getElementById('description').value
-const channel=document.getElementById('channel').value
-const category=document.getElementById('category').value
-const file=document.getElementById('videoFile').files[0]
+window.openAuth = () => {
+authModal.style.display='flex'
+}
 
-if(!title||!channel||!file){
-alert('Lengkapi semua data')
+window.closeAuth = () => {
+authModal.style.display='none'
+}
+
+window.closeWatch = () => {
+watchModal.style.display='none'
+}
+
+window.registerUser = async () => {
+const email = document.getElementById('email').value
+const password = document.getElementById('password').value
+
+await createUserWithEmailAndPassword(auth,email,password)
+
+alert('Register berhasil')
+}
+
+window.loginUser = async () => {
+const email = document.getElementById('email').value
+const password = document.getElementById('password').value
+
+await signInWithEmailAndPassword(auth,email,password)
+
+alert('Login berhasil')
+authModal.style.display='none'
+}
+
+onAuthStateChanged(auth,user=>{
+currentUser=user
+})
+
+window.uploadVideo = async () => {
+const title = document.getElementById('title').value
+const description = document.getElementById('description').value
+const file = document.getElementById('videoFile').files[0]
+
+if(!title || !file){
+alert('Lengkapi data')
 return
 }
 
-const url=URL.createObjectURL(file)
+const storageRef = ref(storage,'videos/'+Date.now()+file.name)
 
-const video={
-id:Date.now(),
+await uploadBytes(storageRef,file)
+
+const url = await getDownloadURL(storageRef)
+
+await addDoc(collection(db,'videos'),{
 title,
 description,
-channel,
-category,
 video:url,
-views:0,
+user:currentUser.email,
+createdAt:Date.now(),
 likes:0,
 comments:[]
-}
+})
 
-videos.unshift(video)
-activities.unshift(currentUser.username+' upload video '+title)
-renderVideos()
-closeUpload()
 alert('Video berhasil diupload')
+closeUpload()
+loadVideos()
 }
 
-function watchVideo(id){
-const video=videos.find(v=>v.id===id)
-if(!video)return
+async function loadVideos(){
+const q = query(collection(db,'videos'),orderBy('createdAt','desc'))
+const snapshot = await getDocs(q)
 
+videoContainer.innerHTML=''
+allVideos=[]
+
+snapshot.forEach(doc=>{
+const video = doc.data()
+allVideos.push(video)
+
+const card = document.createElement('div')
+card.className='card'
+
+card.innerHTML=`
+<video src="${video.video}"></video>
+<div class="info">
+<h3>${video.title}</h3>
+<p>${video.user}</p>
+</div>
+`
+
+card.onclick=()=>watchVideo(video)
+videoContainer.appendChild(card)
+})
+}
+
+function watchVideo(video){
 currentVideo=video
-video.views++
-
-if(currentUser){
-activities.unshift(currentUser.username+' menonton '+video.title)
-}
 
 player.src=video.video
 watchTitle.innerText=video.title
-watchChannel.innerText='Channel: '+video.channel
-watchViews.innerText=video.views+' views • '+video.likes+' likes'
-watchDesc.innerText=video.description
-watchCategory.innerText=video.category
+watchDescription.innerText=video.description
 
-renderComments()
-watchModal.style.display='flex'
-renderVideos()
-}
-
-function closeWatch(){
-watchModal.style.display='none'
-player.pause()
-}
-
-function likeVideo(){
-if(!currentUser){
-alert('Login dahulu')
-return
-}
-currentVideo.likes++
-activities.unshift(currentUser.username+' menyukai video')
-watchViews.innerText=currentVideo.views+' views • '+currentVideo.likes+' likes'
-renderVideos()
-}
-
-function addComment(){
-if(!currentUser){
-alert('Login dahulu')
-return
-}
-
-const text=commentInput.value
-if(!text)return
-
-currentVideo.comments.push(currentUser.username+': '+text)
-activities.unshift(currentUser.username+' berkomentar')
-commentInput.value=''
-renderComments()
-}
-
-function renderComments(){
 commentList.innerHTML=''
-currentVideo.comments.forEach(comment=>{
+
+if(video.comments){
+video.comments.forEach(comment=>{
 const div=document.createElement('div')
 div.className='comment'
 div.innerText=comment
@@ -328,100 +372,47 @@ commentList.appendChild(div)
 })
 }
 
-function shareVideo(){
-navigator.clipboard.writeText(location.href)
-alert('Link video disalin')
+watchModal.style.display='flex'
 }
 
-function subscribeChannel(){
-alert('Berhasil subscribe channel')
+window.likeVideo = () => {
+alert('Like berhasil')
 }
 
-function searchVideos(keyword){
-const filtered=videos.filter(v=>
-v.title.toLowerCase().includes(keyword.toLowerCase())||
-v.channel.toLowerCase().includes(keyword.toLowerCase())||
-v.category.toLowerCase().includes(keyword.toLowerCase())
-)
-renderVideos(filtered)
-}
+window.sendComment = () => {
+const text = document.getElementById('commentInput').value
 
-function openAuth(){
-authModal.style.display='flex'
-}
+if(!text)return
 
-function registerUser(){
-const username=document.getElementById('username').value
-const password=document.getElementById('password').value
-
-if(!username||!password){
-alert('Lengkapi data')
-return
-}
-
-users.push({username,password,role:'user'})
-activities.unshift(username+' mendaftar akun')
-alert('Register berhasil')
-}
-
-function loginUser(){
-const username=document.getElementById('username').value
-const password=document.getElementById('password').value
-
-if(username===adminAccount.username&&password===adminAccount.password){
-currentUser=adminAccount
-activities.unshift('Admin login')
-authModal.style.display='none'
-alert('Login admin berhasil')
-return
-}
-
-const user=users.find(u=>u.username===username&&u.password===password)
-
-if(!user){
-alert('Akun tidak ditemukan')
-return
-}
-
-currentUser=user
-activities.unshift(username+' login')
-authModal.style.display='none'
-alert('Login berhasil')
-}
-
-function openAdmin(){
-if(!currentUser||currentUser.role!=='admin'){
-alert('Login admin dahulu')
-return
-}
-
-adminModal.style.display='flex'
-renderAdmin()
-}
-
-function renderAdmin(){
-totalUsers.innerText=users.length
-totalVideos.innerText=videos.length
-totalActivities.innerText=activities.length
-
-activityList.innerHTML=''
-
-activities.forEach(act=>{
 const div=document.createElement('div')
 div.className='comment'
-div.innerText=act
-activityList.appendChild(div)
+div.innerText=currentUser.email+': '+text
+commentList.appendChild(div)
+
+commentInput.value=''
+}
+
+window.searchVideos = (keyword) => {
+const cards=document.querySelectorAll('.card')
+
+cards.forEach((card,index)=>{
+const video=allVideos[index]
+
+if(video.title.toLowerCase().includes(keyword.toLowerCase())){
+card.style.display='block'
+}else{
+card.style.display='none'
+}
 })
 }
 
 window.onclick=function(e){
 if(e.target==uploadModal)closeUpload()
+if(e.target==authModal)closeAuth()
 if(e.target==watchModal)closeWatch()
-if(e.target==authModal)authModal.style.display='none'
-if(e.target==adminModal)adminModal.style.display='none'
 }
 
-renderVideos()
+loadVideos()
 </script>
 
 </body>
